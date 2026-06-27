@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>🧬 Platform Analisis Komparatif Sekuens Genomik</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcf8f9; /* Hint safranin rose sangat tipis */
+            color: #2b1a1d;
+            overflow-x: hidden;
+        }
+
+        /* Pembagian Layout Utama: Sidebar Kiri & Konten Kanan */
+        .wrapper-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 1. Komponen Sidebar Kiri Fixed */
+        .sidebar-panel {
+            width: 340px;
+            background: linear-gradient(180deg, #4a2840 0%, #2a1122 100%); /* Gram-Positif Crystal Violet */
+            color: #ffffff;
+            padding: 30px 24px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 4px 0 20px rgba(42, 17, 34, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* 2. Komponen Konten Utama di Kanan */
+        .main-content {
+            flex: 1;
+            margin-left: 340px; /* Memberikan ruang agar tidak tertimpa sidebar */
+            padding: 40px;
+            background-color: #fcf8f9;
+        }
+        
+        /* Animasi Jalur Teks DNA Bergerak di Atas Sidebar */
+        .header-dna-box {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-center;
+            margin-bottom: 30px;
+        }
+
+        .header-dna-box::before {
+            content: "A--T--G--C--C--G--A--T--T--A--C--G--G";
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.07);
+            width: 200%;
+            white-space: nowrap;
+            bottom: 5px;
+            left: 0;
+            animation: moveDNA 12s linear infinite;
+        }
+
+        @keyframes moveDNA {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Gaya Elemen Formulir di Dalam Sidebar */
+        .form-label-sidebar {
+            font-size: 12px;
+            font-weight: 700;
+            text-uppercase: true;
+            letter-spacing: 0.5px;
+            color: #eed6da;
+            margin-bottom: 6px;
+        }
+
+        .input-sidebar {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .input-sidebar:focus {
+            border-color: #b84a62 !important;
+            box-shadow: 0 0 0 0.25rem rgba(184, 74, 98, 0.25) !important;
+        }
+
+        .input-sidebar option {
+            background-color: #2a1122;
+            color: #ffffff;
+        }
+
+        /* Tombol Komputasi Safranin Rose */
+        .btn-analisis-sidebar {
+            background: linear-gradient(135deg, #b84a62 0%, #8c2a40 100%);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(184, 74, 98, 0.2);
+        }
+
+        .btn-analisis-sidebar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(184, 74, 98, 0.4);
+        }
+
+        /* Desain Struktur Card Kanan */
+        .card-modern {
+            background-color: #ffffff;
+            border: 1px solid #eacfdf;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(74, 40, 64, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .card-header-modern {
+            background-color: #faf4f7 !important;
+            border-bottom: 1px solid #eacfdf;
+            border-top-left-radius: 19px !important;
+            border-top-right-radius: 19px !important;
+            font-weight: 700;
+            color: #4a2840;
+        }
+
+        .bg-gram-negative-soft {
+            background-color: #f7e6e8 !important; /* Safranin rose pudar */
+        }
+
+        /* Tabel Riset */
+        .table-riset {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #eacfdf;
+        }
+
+        .table-riset thead {
+            background-color: #4a2840 !important;
+            color: #ffffff;
+        }
+
+        .btn-unduh-csv {
+            background-color: #eed6da;
+            color: #8c2a40;
+            border: 1px solid #dfb1ba;
+            font-weight: 600;
+            border-radius: 10px;
+        }
+
+        .btn-unduh-csv:hover {
+            background-color: #dfb1ba;
+        }
+
+        /* Kode & Badges */
+        .font-code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-nukleotida {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+            margin: 2px;
+        }
+        .b-a { background-color: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; } 
+        .b-t { background-color: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; } 
+        .b-g { background-color: #f1f8e9; color: #33691e; border: 1px solid #dcedc8; } 
+        .b-c { background-color: #e0f7fa; color: #006064; border: 1px solid #b2ebf2; } 
+        
+        .badge-panjang {
+            background-color: #f3e5f5;
+            color: #4a148c;
+            border: 1px solid #e1bee7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper-layout">
+        
+        <div class="sidebar-panel">
+            
+            <div class="header-dna-box">
+                <h4 class="fw-bold m-0" style="letter-spacing: -0.5px;">🧬 Sequence Analytics</h4>
+                <p class="m-0 mt-1 opacity-75" style="font-size: 11px; font-weight: 600;">Riset & Komparasi Kuantitatif</p>
+            </div>
+
+            <form action="/" method="POST" enctype="multipart/form-data" class="d-flex flex-column h-100">
+                <div class="mb-3">
+                    <label class="form-label-sidebar">📂 Input Berkas Genomik</label>
+                    <input type="file" name="file_kamu" class="form-control input-sidebar" multiple required>
+                    <div class="opacity-50 mt-1" style="font-size: 11px;">Mendukung seleksi banyak file sekaligus (Ctrl + Klik).</div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label-sidebar">📄 Format Data Standar</label>
+                    <select name="file_type" class="form-select input-sidebar">
+                        <option value="FASTA">FASTA (.fasta, .fa, .txt)</option>
+                        <option value="FASTQ">FASTQ (.fastq, .fq)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-analisis-sidebar w-100 shadow-sm mb-4">⚡ Jalankan Komputasi</button>
+                
+                <div class="mt-auto border-top border-secondary pt-3 opacity-50" style="font-size: 11px;">
+                    <p class="m-0">Struktur Data Bioinformatika</p>
+                    <p class="m-0">Platform Komparasi Universal</p>
+                </div>
+            </form>
+        </div>
+
+        <div class="main-content">
+            
+            {% if ada_data %}
+            <h5 class="fw-bold text-gram-positive mb-3">🏆 Peringkat Sekuens (Rasio GC Content Tertinggi)</h5>
+            <div class="row g-3 mb-4">
+                {% for data in top_3_juara %}
+                <div class="col-md-4">
+                    <div class="card card-modern p-4 text-center h-100 {% if loop.index == 1 %}bg-gram-negative-soft{% endif %}" style="border-width: {% if loop.index == 1 %}2px{% else %}1px{% endif %};">
+                        <span class="badge {% if loop.index == 1 %}bg-dark text-white{% else %}bg-secondary text-white{% endif %} mx-auto px-4 py-1.5 mb-3 rounded-pill fw-bold small">Peringkat {{ loop.index }}</span>
+                        <p class="text-truncate fw-bold font-code text-muted small m-0" title="{{ data.header }}">{{ data.header }}</p>
+                        <h2 class="fw-bold text-gram-positive my-3" style="font-size: 2.2rem;">{{ "%.2f"|format(data.gc_content) }}%</h2>
+                        <p class="m-0 font-code text-secondary small fw-bold"><span class="px-2 py-1 bg-white rounded border border-secondary border-opacity-25">🧬 {{ data.sequence|length }} bp</span></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="card card-modern p-4">
+                <h5 class="fw-bold text-gram-positive mb-3">📊 Diagram Distribusi Komparatif GC Content</h5>
+                <div class="p-3 rounded-4 border border-1" style="background-color: #fafbfc !important;">
+                    <img src="/static/gc_chart.png?v={{ range(1, 9999)|random }}" class="img-fluid rounded-4 mx-auto d-block" alt="Grafik Batang">
+                </div>
+            </div>
+
+            <div class="card card-modern shadow-sm border-1 overflow-hidden mb-0">
+                <div class="card-header card-header-modern py-3 d-flex justify-content-between align-items-center">
+                    <span class="m-0 fw-bold">📋 Kompilasi Rekaman Data Hasil Kerja Pipeline</span>
+                    <a href="/unduh-csv" class="btn btn-unduh-csv btn-sm px-4 fw-bold shadow-sm">📥 Ekspor (.CSV)</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle table-riset mb-0">
+                        <thead>
+                            <tr class="small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                                <th class="ps-4 py-3">Deskripsi / Header Identitas</th>
+                                <th class="py-3">Kuantitas Ukuran</th>
+                                <th class="py-3">Rasio GC (%)</th>
+                                <th class="pe-4 py-3 text-center">Metrik Distribusi Basa Spesifik</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in hasil %}
+                            <tr>
+                                <td class="text-truncate ps-4 fw-bold font-code text-muted" style="max-width: 250px;" title="{{ data.header }}">{{ data.header }}</td>
+                                <td><span class="badge badge-panjang font-code px-2 py-1 rounded-3 fw-bold">{{ data.sequence|length }} bp</span></td>
+                                <td class="fw-bold text-gram-positive" style="font-size: 1.1rem;">{{ "%.2f"|format(data.gc_content) }}%</td>
+                                <td class="pe-4 text-center">
+                                    <span class="badge-nukleotida b-a font-code">A: {{ data.counts.A }}</span>
+                                    <span class="badge-nukleotida b-t font-code">T/U: {{ data.counts.T }}</span>
+                                    <span class="badge-nukleotida b-g font-code">G: {{ data.counts.G }}</span>
+                                    <span class="badge-nukleotida b-c font-code">C: {{ data.counts.C }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            {% else %}
+            <div class="d-flex align-items-center justify-content-center text-center rounded-5 border border-2 border-dashed border-secondary border-opacity-25" style="min-height: 80vh; background-color: #ffffff;">
+                <div class="p-5" style="max-width: 500px;">
+                    <div class="display-3 mb-3">🧬</div>
+                    <h3 class="fw-bold text-gram-positive">Selamat Datang di Platform Analisis</h3>
+                    <p class="text-muted small">Silakan pilih dan unggah berkas data sekuens makromolekul (FASTA/FASTQ) Anda menggunakan panel kontrol di sebelah kiri untuk memulai pipeline komputasi.</p>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
